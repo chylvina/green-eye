@@ -1,0 +1,1 @@
+(function(){chrome.storage.sync.get(["disabled"],function(n){return n.disabled?chrome.browserAction.setIcon({path:"img/icons/icon19_gray.png"}):chrome.browserAction.setIcon({path:"img/icons/icon19.png"})})}).call(this);

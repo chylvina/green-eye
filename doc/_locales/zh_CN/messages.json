@@ -1,0 +1,20 @@
+{
+   "background_color": {
+      "message": "\u80CC\u666F\u8272"
+   },
+   "description": {
+      "message": "\u4FEE\u6539\u7F51\u9875\u7684\u80CC\u666F\u8272\u4E0E\u524D\u666F\u8272\uFF0C\u6765\u4FDD\u62A4\u60A8\u7684\u773C\u775B\u4E0E\u89C6\u529B"
+   },
+   "disable": {
+      "message": "\u7981\u7528"
+   },
+   "enable": {
+      "message": "\u542F\u7528"
+   },
+   "foreground_color": {
+      "message": "\u524D\u666F\u8272"
+   },
+   "name": {
+      "message": "\u773C\u775B\u536B\u58EB"
+   }
+}

@@ -1,0 +1,80 @@
+{
+  "name":{
+    "message":"Designer Tools"
+  },
+  "extDescription":{
+    "message":"A set of useful tools including eyedropper and ruler for web designers, frontend developers, etc. Will add more tools later."
+  },
+  "optionPageTitle":{
+    "message":"Designer Tools option"
+  },
+  "shoppingAssistSetting":{
+    "message":"We need your support"
+  },
+  "shoppingAssistTip":{
+    "message":"You only need to enable this to support us. Nothing else. We are not going to show ads to annoy you, you don't need to pay us for anything."
+  },
+  "shortcut":{
+    "message":"Shortcut"
+  },
+  "enableShortcut":{
+    "message":"Enable shortcut"
+  },
+  "colorpicker":{
+    "message":"Color Picker"
+  },
+  "rulerH":{
+    "message":"Horizontal Ruler"
+  },
+  "rulerV":{
+    "message":"Vertical Ruler"
+  },
+  "saveAndClose":{
+    "message":"Save and close"
+  },
+  "spectrumChoose":{
+    "message":"choose"
+  },
+  "spectrumCancel":{
+    "message":"cancel"
+  },
+  "spectrumTip":{
+    "message":"Theme color for tools"
+  },
+  "optionColorTitle":{
+    "message":"Colors"
+  },
+  "rulerActivatedTip":{
+    "message":"Ruler is activated."
+  },
+  "designertoolsActivatedTip":{
+    "message":"Designer tools is activated."
+  },
+  "designertoolsDeactivatedTip":{
+    "message":"Designer tools is deactivated."
+  },
+  "colorpickerActivatedTip":{
+    "message":"Color picker is activated."
+  },
+  "deactivateTip":{
+    "message":"Deactivate(ESC)"
+  },
+  "hideTip":{
+    "message":"Hide"
+  },
+  "showTip":{
+    "message":"Show"
+  },
+  "setting": {
+    "message":"Options"
+  },
+  "tip1": {
+    "message":"Chrome doesn't allow extensions to interact with special Chrome pages like this one."
+  },
+  "tip2": {
+    "message":"Chrome doesn't allow extensions to interact with Chrome Web Store."
+  },
+  "tip3": {
+    "message":"Designer Tools need 'Allow access to file URLs' permission. <a style='color: #0066cc' href='http://quick-markup.com/p/52663fcf6b3ce' target='_blank'>Refer to this page.</a>"
+  }
+}

@@ -1,0 +1,20 @@
+{
+   "background_color": {
+      "message": "Background"
+   },
+   "description": {
+      "message": "Change background and foreground colors for eye health and normal vision"
+   },
+   "disable": {
+      "message": "Disable"
+   },
+   "enable": {
+      "message": "Enable"
+   },
+   "foreground_color": {
+      "message": "Foreground"
+   },
+   "name": {
+      "message": "eye guard"
+   }
+}

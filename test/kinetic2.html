@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+  </style>
+</head>
+<body>
+<div id="container" style="position: absolute;"></div>
+<img src="bg.png" style="position: absolute; z-index: -1;">
+<script src="../js/vendor/kinetic-v4.6.0.min.js"></script>
+<script defer="defer">
+  var stage = new Kinetic.Stage({
+    container: 'container',
+    width: 578,
+    height: 200
+  });
+
+  var layer = new Kinetic.Layer();
+
+  var redLine = new Kinetic.Line({
+    points: [73, 70, 340, 23, 450, 60, 500, 20],
+    stroke: 'red',
+    strokeWidth: 15,
+    lineCap: 'round',
+    lineJoin: 'round'
+  });
+
+  // dashed line
+  var greenLine = new Kinetic.Line({
+    points: [73, 70, 340, 23, 450, 60, 500, 20],
+    stroke: 'green',
+    strokeWidth: 2,
+    lineJoin: 'round',
+    /*
+     * line segments with a length of 33px
+     * with a gap of 10px
+     */
+    dashArray: [33, 10]
+  });
+
+  // complex dashed and dotted line
+  var blueLine = new Kinetic.Line({
+    points: [73, 70, 340, 23, 450, 60, 500, 20],
+    stroke: 'blue',
+    strokeWidth: 10,
+    lineCap: 'round',
+    lineJoin: 'round',
+    /*
+     * line segments with a length of 29px with a gap
+     * of 20px followed by a line segment of 0.001px (a dot)
+     * followed by a gap of 20px
+     */
+    dashArray: [29, 20, 0.001, 20]
+  });
+
+
+  var group = new Kinetic.Group({
+    x: 100,
+    y: 100,
+    rotation: -Math.atan(3/4)
+  });
+
+  group.add(new Kinetic.Line({
+    points: [0, 0, 4, 3],
+    stroke: 'red',
+    strokeWidth: 1
+  })).add(new Kinetic.Line({
+            points: [0, 0, 4, -3],
+            stroke: 'red',
+            strokeWidth: 1
+          })).add(new Kinetic.Line({
+            points: [0, 0, 50, 0],
+            stroke: 'red',
+            strokeWidth: 1
+          }));
+
+  //group.rotate(-Math.atan(3/4));
+
+  var group2 = new Kinetic.Group({
+    x: 100,
+    y: 100
+  });
+  group2.add(new Kinetic.Rect({
+            x: 39,
+            y: -35,
+            width: 10,
+            height: 10,
+            fill: 'red'
+          })).
+          add(new Kinetic.Rect({
+            x: 40,
+            y: -34,
+            width: 8,
+            height: 8,
+            fill: '#0066cc'
+          })).add(new Kinetic.Text({
+            x: 52,
+            y: -36,
+            fontFamily: 'Arial',
+            fontSize: 12,
+            fill: '#ffffff',
+            stroke: '#ffffff',
+            strokeWidth: 2,
+            text: '#FFFFFF'
+          })).add(new Kinetic.Text({
+            x: 52,
+            y: -36,
+            fontFamily: 'Arial',
+            fontSize: 12,
+            fill: 'red',
+            text: '#FFFFFF'
+          }));
+
+  layer.add(new Kinetic.Text({
+    x: 100 - 24,
+    y: 100 - 6,
+    fontFamily: 'Arial',
+    fontSize: 12,
+    fill: 'red',
+    text: '#FFFFFF',
+    align: 'right'
+  }));
+
+  stage.add(layer);
+  layer.add(group);
+  layer.add(group2);
+  layer.batchDraw();
+</script>
+</body>
+</html>

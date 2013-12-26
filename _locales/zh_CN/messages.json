@@ -1,0 +1,80 @@
+{
+  "name":{
+    "message":"设计师助手"
+  },
+  "extDescription":{
+    "message":"为设计师, 前端开发工程师提供帮助的工具箱, 目前包括取色工具和标尺. 会后续增加新的功能."
+  },
+  "optionPageTitle":{
+    "message":"设计师助手选项"
+  },
+  "shoppingAssistSetting":{
+    "message":"我们需要您的支持"
+  },
+  "shoppingAssistTip":{
+    "message":"您只需开启这个选项来支持我们，无需其它。您无需付费或捐款，也不会有恼人的植入广告。"
+  },
+  "shortcut":{
+    "message":"快捷键"
+  },
+  "enableShortcut":{
+    "message":"启用快捷键"
+  },
+  "colorpicker":{
+    "message":"取色工具"
+  },
+  "rulerH":{
+    "message":"横向标尺"
+  },
+  "rulerV":{
+    "message":"纵向标尺"
+  },
+  "saveAndClose":{
+    "message":"保存并关闭"
+  },
+  "spectrumChoose":{
+    "message":"选择"
+  },
+  "spectrumCancel":{
+    "message":"取消"
+  },
+  "spectrumTip":{
+    "message":"请选择工具的主题颜色"
+  },
+  "optionColorTitle":{
+    "message":"颜色"
+  },
+  "rulerActivatedTip":{
+    "message":"标尺正在工作."
+  },
+  "designertoolsActivatedTip":{
+    "message":"设计师助手正在工作."
+  },
+  "designertoolsDeactivatedTip":{
+    "message":"设计师助手已经隐藏."
+  },
+  "colorpickerActivatedTip":{
+    "message":"取色工具正在工作."
+  },
+  "deactivateTip":{
+    "message":"取消(ESC)"
+  },
+  "hideTip":{
+    "message":"隐藏"
+  },
+  "showTip":{
+    "message":"显示"
+  },
+  "setting": {
+    "message":"设置"
+  },
+  "tip1": {
+    "message":"抱歉, 设计师工具无法在此页面使用."
+  },
+  "tip2": {
+    "message":"抱歉, 设计师工具无法在谷歌应用商店页面使用."
+  },
+  "tip3": {
+    "message":"您需要开启'允许访问文件网址'权限才能设计本地页面. <a style='color: #0066cc' href='http://quick-markup.com/p/52663fcf6b3ce' target='_blank'>参考此页面</a>"
+  }
+}
