@@ -4,17 +4,130 @@
   // Non html
   if (!(document.documentElement instanceof HTMLHtmlElement)) return;
 
-  chrome.extension.onRequest.addListener(
-    function (data) {
-      if (top == self) {
-        switch (data.command) {
-          case 'Block':
-            blockEle();
-            break;
+
+  var page = {
+
+    enabled: false,
+
+    color: "#000000",
+
+    bgColor: "#cce8cf",
+
+    init: function() {
+      var none = '{display: none !important;}';
+
+      $("body").before('<div id="greeneye-c1">' +
+        '<div id="greeneye-c2"><div id="greeneye-c3">' +
+        '<span id="greeneye-tip">点击变色' +
+        '</span><span id="greeneye-esc">ESC</span>' +
+        '</div></div></div>');
+    },
+
+    sendMessage: function(message) {
+      chrome.extension.connect().postMessage(message);
+    },
+
+    i18nReplace: function (id, messageid) {
+      return $('#' + id).text(chrome.i18n.getMessage(messageid || id));
+    },
+
+    pickActivate: function() {
+      if (page.enabled) return;
+      page.enabled = true;
+
+      $('#greeneye-c1').show();
+
+      var ele = ''
+        , outline = ''
+        , border = ''
+        , color =''
+        , bgColor = ''
+        , reObjects = /^(iframe|object|embed)$/i
+        , gObjects = /^(html|body|head)$/i;
+
+      var over = function (ev) {
+        if(ev.target.id.indexOf("greeneye") >= 0) // 不能删除 greeneye element
+          return;
+
+        if (gObjects.test(ev.target.nodeName)) { // 不能删除 gObjects
+          return;
         }
-      }
+
+        ele = $(ev.target);
+
+        if(ele.width() < 50 || ele.height() < 50) {
+          ele == null;
+          return;
+        }
+
+        outline = ele.css('outline');
+        ele.css('outline', '1px solid #306EFF');
+        color = ele.css('color');
+        ele.css('color', page.color);
+        bgColor = ele.css('backgroundColor');
+        ele.css('backgroundColor', page.bgColor);
+
+        //
+        ele.bind('mouseout.greeneye', out);
+        ele.bind('click.greeneye', click);
+      };
+      var out = function () {
+        if (ele && ele.length > 0) {
+          ele.css('outline', outline);
+          ele.css('color', color);
+          ele.css('backgroundColor', bgColor);
+
+          //
+          ele.unbind('.greeneye');
+        }
+      };
+      var click = function (ev) {
+        if (ele && ele.length > 0) {
+          if (ev)
+            ev.preventDefault();
+
+          ele.css('outline', '1px solid #306EFF');
+          ele.css('color', page.color);
+          ele.css('backgroundColor', page.bgColor);
+
+          ele.unbind('.greeneye');
+          ele = null;
+        }
+      };
+      var press = function (ev) {
+        if (ev.keyCode == 27) {   // ESC
+          out();
+          page.pickDeactivate();
+        }
+      };
+
+      $(window).bind('mouseover.greeneye', over);
+      $(window).bind('keyup.greeneye', press);
+      $('#greeneye-esc').bind('click.greeneye', page.pickDeactivate);
+    },
+
+    pickDeactivate: function() {
+      if (!page.enabled)
+        return;
+      page.enabled = false;
+
+      $(window).unbind('.greeneye');
+      $('#greeneye-esc').unbind('.greeneye');
+
+      $('#greeneye-c1').hide();
+
+      // reset cursor changes
+      $("body").css('cursor','default');
+    },
+
+    setColor: function(o) {
+      return $("html").css("color", o), $("body").css("color", o);
+    },
+
+    setBgColor: function(o) {
+      return $("html").css("background-color", o), $("body").css("background-color", o);
     }
-  );
+  }
 
   chrome.runtime.onMessage.addListener(function(req, sender, sendResponse) {
     switch(req.type) {
@@ -34,121 +147,14 @@
     }
   });
 
+  chrome.storage.sync.get(["color", "background_color", "disabled"], function (r) {
+    r.disabled ? void 0 : (r.color || (r.color = page.color), r.background_color || (r.background_color = page.bgColor), page.setColor(r.color), page.setBgColor(r.background_color));
+  });
 
-
-  var page = {
-
-    enabled: false,
-
-    init: function() {
-      var none = '{display: none !important;}';
-
-      $("body").before('<div id="greeneye-c1">' +
-        '<div id="greeneye-c2"><div id="greeneye-c3">' +
-        '<span id="greeneye-tip">点击变色' +
-        '</span><span id="greeneye-esc">ESC</span>' +
-        '</div><img id="greeneye-close" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAALFJREFUeNqMkk0OAUEQhSvE2PgNzmVOYCEWbkTib2QwiMS1LIkDjNe8SiqlJV7yLebVT1dXj8hHYzADDflWC+RgqsYI3EEJdkxQdcCJsQcby4KGEroloA72LrbWLrkLbIn1jqCrRzdB5hIsZ5usqvJIn1xwvLcqpiD5saUy4kkfXP8daRBJ3oBVpKgnvL0NHDheLbK9ZSiYgCeNi9tG2zS8gaGYXyPjm3gFbw7S8PESYACUf0fkQ53xHwAAAABJRU5ErkJggg=="></div></div>');
-    },
-
-    sendMessage: function(message) {
-      chrome.extension.connect().postMessage(message);
-    },
-
-    i18nReplace: function (id, messageid) {
-      return $('#' + id).text(chrome.i18n.getMessage(messageid || id));
-    },
-
-    pickActivate: function() {
-      if (page.enabled) return;
-      page.enabled = true;
-
-      $('#greeneye-c1').show();
-
-      var ele = '', outline = '', border = '', bgColor = '', title = '', reObjects = /^(iframe|object|embed)$/i, gObjects = /^(html|body|head)$/i;
-
-      var over = function (ev) {
-        if (gObjects.test(ev.target.nodeName)) { // 不能删除 gObjects
-          return;
-        }
-
-        ele = $(ev.target);
-        if (reObjects.test(ele.prop('nodeName'))) {
-          border = ele.css('border');
-          ele.css('border', '1px solid #306EFF');
-        }
-        else {
-          outline = ele.css('outline');
-          ele.css('outline', '1px solid #306EFF');
-          bgColor = ele.css('backgroundColor');
-          ele.css('backgroundColor', '#C6DEFF');
-        }
-
-        //
-        ele.bind('mouseout.greeneye', out);
-        ele.bind('click.greeneye', click);
-      };
-      var out = function () {
-        if (ele && ele.length > 0) {
-          if (reObjects.test(ele.prop('nodeName'))) {
-            ele.css('border', border);
-          }
-          else {
-            ele.css('outline', outline);
-            ele.css('backgroundColor', backgroundColor);
-          }
-
-          //
-          ele.unbind('.greeneye');
-        }
-      };
-      var click = function (ev) {
-        if (ele && ele.length > 0) {
-          if (ev)
-            ev.preventDefault();
-
-          ele.css('outline', '1px solid #306EFF');
-          ele.css('backgroundColor', '#C6DEFF');
-        }
-      };
-      var press = function (ev) {
-        if (ev.keyCode == 27) {   // ESC
-          exit();
-        }
-      };
-      var exit = function () {
-        out();
-        remove();
-      };
-
-      $(window).bind('mouseover.greeneye', over);
-      $(window).bind('keyup.greeneye', press);
-      $('#greeneye-esc').bind('click.greeneye', page.pickDeactivate());
-    },
-
-    pickDeactivate: function() {
-      if (!page.enabled)
-        return;
-      page.enabled = false;
-
-      $(window).unbind('.greeneye');
-      $('#greeneye-esc').unbind('.greeneye');
-
-      $('#greeneye-c1').hide();
-
-      // reset cursor changes
-      $("body").css('cursor','default');
-    }
-  }
-
-  var o, c;
-  c = function (o) {
-    return $("html").css("color", o), $("body").css("color", o)
-  }, o = function (o) {
-    return $("html").css("background-color", o), $("body").css("background-color", o)
-  }, chrome.storage.sync.get(["color", "background_color", "disabled"], function (r) {
-    return r.disabled ? void 0 : (r.color || (r.color = "#000000"), r.background_color || (r.background_color = "#cce8cf"), c(r.color), o(r.background_color))
-  }), chrome.extension.onMessage.addListener(function (r) {
-    return(r.color || "" === r.color) && c(r.color), r.background_color || "" === r.background_color ? o(r.background_color) : void 0
+  chrome.extension.onMessage.addListener(function (r) {
+    return (r.color || "" === r.color) && page.setColor(r.color), r.background_color || "" === r.background_color ? page.setBgColor(r.background_color) : void 0;
   })
+
+  page.init();
 
 })();

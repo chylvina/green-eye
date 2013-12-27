@@ -65,7 +65,7 @@ module.exports = function (grunt) {
         files: {
           '<%= yeoman.dist %>/js/inject.js': [
             //'<%= yeoman.dist %>/js/vendor/zepto.min.js',
-            '<%= yeoman.dist %>/js/pick.js'
+            '<%= yeoman.dist %>/js/inject.js'
           ]
         }
       }
