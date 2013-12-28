@@ -5,10 +5,14 @@ _gaq.push(['_trackPageview']);
 var bgPage = chrome.extension.getBackgroundPage();
 
 function enableAll() {
+  $('ul').show();
+  $('hr').show();
   $("#tips").hide();
 }
 
 function showTip(tip) {
+  $('ul').hide();
+  $('hr').hide();
   $("#tips").show().html(tip);
 }
 
@@ -29,9 +33,15 @@ function init() {
   // Update hot key.
   if (HotKey.isEnabled() && HotKey.get('colorpicker') != '@')
     $('#colorpicker .shortcut').text('Ctrl+Alt+' + HotKey.get('colorpicker'));
+  if (HotKey.isEnabled() && HotKey.get('hRuler') != '@')
+    $('#hRuler .shortcut').text('Ctrl+Alt+' + HotKey.get('rulerH'));
+  if (HotKey.isEnabled() && HotKey.get('vRuler') != '@')
+    $('#vRuler .shortcut').text('Ctrl+Alt+' + HotKey.get('rulerV'));
 
   // localization
   i18nReplace("colorpicker", "colorpicker");
+  i18nReplace("hRuler", "rulerH");
+  i18nReplace("vRuler", "rulerV");
   i18nReplace("config", "setting");
 
   // event listener
@@ -42,7 +52,17 @@ function init() {
   });
   $('#colorpicker').click(function() {
     _gaq.push(['_trackEvent', 'color picker', 'clicked']);
-    bgPage.bg.pickActivate();
+    bgPage.bg.pickupActivate();
+    window.close();
+  });
+  $('#hRuler').click(function() {
+    _gaq.push(['_trackEvent', 'hRuler', 'clicked']);
+    bgPage.bg.hRulerActivate();
+    window.close();
+  });
+  $('#vRuler').click(function() {
+    _gaq.push(['_trackEvent', 'hRuler', 'clicked']);
+    bgPage.bg.vRulerActivate();
     window.close();
   });
 
@@ -90,3 +110,14 @@ function init() {
 $(document).ready(function() {
   init();
 });
+
+angular.module('popup', [])
+  .config(function() {
+
+  })
+  .controller('popupCtroller', function() {
+
+  })
+  .run(function() {
+
+  });

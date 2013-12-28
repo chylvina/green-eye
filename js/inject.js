@@ -126,6 +126,10 @@
 
     setBgColor: function(o) {
       return $("html").css("background-color", o), $("body").css("background-color", o);
+    },
+
+    setBorderColor: function(o) {
+      return $("html").css("color", o), $("body").css("color", o);
     }
   }
 
@@ -148,6 +152,7 @@
   });
 
   chrome.storage.sync.get(["color", "background_color", "disabled"], function (r) {
+    console.log(r);
     r.disabled ? void 0 : (r.color || (r.color = page.color), r.background_color || (r.background_color = page.bgColor), page.setColor(r.color), page.setBgColor(r.background_color));
   });
 

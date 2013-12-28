@@ -61,6 +61,14 @@ li{
   background-position: 5px 5px;
 }
 
+.enabled {
+  background-image:url(../img/check.png);
+  background-position: 5px 5px;
+}
+
+.disabled {
+}
+
 li:hover{
 	color: #000;
 	background-color: #eceff4;
@@ -76,7 +84,7 @@ li .disable:hover{
 	background-color: #eceff4;
 }
 
- #tips{
+#tips{
 	width:100%;text-align:center;font-size:12px;
 	padding: 6px 4px;
 }
