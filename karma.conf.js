@@ -13,9 +13,12 @@ module.exports = function (config) {
     files: [
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
-      'app/js/*.js',
-      'app/js/**/*.js',
-      'test/spec/*.js'
+      //'app/js/*.js',
+      //'app/js/**/*.js',
+      'app/js/angular-extend/*.js',
+      'app/js/service/service.storage.js',
+      'app/js/service/service.setting.js',
+      'test/spec/test.service.setting.js'
     ],
 
     // list of files / patterns to exclude
@@ -41,7 +44,7 @@ module.exports = function (config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
 
 
     // Continuous Integration mode

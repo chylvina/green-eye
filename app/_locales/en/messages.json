@@ -76,5 +76,14 @@
   },
   "tip3": {
     "message":"Designer Tools need 'Allow access to file URLs' permission. <a style='color: #0066cc' href='http://quick-markup.com/p/52663fcf6b3ce' target='_blank'>Refer to this page.</a>"
+  },
+  "TYPE_SIMPLE": {
+    "message": "Green background"
+  },
+  "TYPE_ENTIRE": {
+    "message": "Green all"
+  },
+  "TYPE_SMART": {
+    "message": "Green smart"
   }
 }

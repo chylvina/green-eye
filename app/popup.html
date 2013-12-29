@@ -12,31 +12,36 @@
   <script type="text/javascript" src="js/controller/popup.js"></script>
   <script type="text/javascript" src="js/filter/filter.i18n.js"></script>
   <script type="text/javascript" src="js/service/service.storage.js"></script>
-  <script type="text/javascript" src="js/service/service.settings.js"></script>
+  <script type="text/javascript" src="js/service/service.setting.js"></script>
 </head>
 <body data-ng-controller="popupController">
 <div id="tips" style="display: none;">
 
 </div>
 <ul>
-  <li id="colorpicker" class="enabled"
-    data-ng-click="toggle()">
-    <span class="title">{{'colorpicker' | i18nReplace}}</span>
+  <li id="colorpicker"
+      data-ng-class="{'enabled': appSetting.get('type') == appSetting.TYPE_SIMPLE}"
+      data-ng-click="toggle(appSetting.TYPE_SIMPLE)">
+    <span class="title">{{'TYPE_SIMPLE' | i18nReplace}}</span>
     <span class="shortcut" id="colorpicker_sc"></span>
   </li>
-  <li id="hRuler" class="disabled">
-    <span class="title">{{'colorpicker' | i18nReplace}}</span>
+  <li id="hRuler"
+      data-ng-class="{'enabled': appSetting.get('type') == appSetting.TYPE_ENTIRE}"
+      data-ng-click="toggle(appSetting.TYPE_ENTIRE)">
+    <span class="title">{{'TYPE_ENTIRE' | i18nReplace}}</span>
     <span class="shortcut"></span>
   </li>
-  <li id="vRuler">
-    <span class="title">{{'colorpicker' | i18nReplace}}</span>
+  <li id="vRuler"
+      data-ng-class="{'enabled': appSetting.get('type') == appSetting.TYPE_SMART}"
+      data-ng-click="toggle(appSetting.TYPE_SMART)">
+    <span class="title">{{'TYPE_SMART' | i18nReplace}}</span>
     <span class="shortcut"></span>
   </li>
 </ul>
 <hr/>
 <ul>
   <li id="config"
-    data-ng-click="goSetting()">
+      data-ng-click="goSetting()">
     <span class="title">{{'setting' | i18nReplace}}</span>
     <span class="shortcut"></span>
   </li>

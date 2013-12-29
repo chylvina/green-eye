@@ -1,8 +1,5 @@
 // Google Analytics
-/*var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-45056740-1']);
-_gaq.push(['_trackPageview']);
-var bgPage = chrome.extension.getBackgroundPage();
+/*
 
 function enableAll() {
   $('ul').show();
@@ -101,6 +98,11 @@ $(document).ready(function() {
   init();
 });*/
 
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-45056740-1']);
+_gaq.push(['_trackPageview']);
+var bgPage = chrome.extension.getBackgroundPage();
+
 angular.module('popup', [
     'filter.i18n',
     'service.storage',
@@ -109,17 +111,19 @@ angular.module('popup', [
   .config(function() {
 
   })
-  .controller('popupController', function($scope, $chromeStorage, appSetting) {
-    var c = 1;
-    $scope.toggle = function() {
-      //chrome.storage.sync.set({disabled: !1});
-      $chromeStorage.set({disabled: c++})
-        .then(function() {
-          $chromeStorage.get('disabled')
-            .then(function(result) {
-              console.log(result);
-            });
+  .controller('popupController', function($rootScope, $scope, appSetting) {
+    $scope.toggle = function(type) {
+
+      if(appSetting.get('type') == type) {
+        appSetting.set({
+          type: appSetting.TYPE_NONE
         });
+      }
+      else {
+        appSetting.set({
+          type: type
+        });
+      }
 
       window.close();
     };
@@ -130,9 +134,23 @@ angular.module('popup', [
       window.close();
     };
 
+    $scope.appSetting = appSetting;
+
     /*chrome.storage.sync.get(["color", "background_color", "disabled"], function (r) {
       console.log(r);
     });*/
+
+    appSetting.bind('ready', function() {
+      if(!$rootScope.$$phase) {
+        $scope.$digest();
+      }
+    });
+
+    appSetting.bind('update', function() {
+      if(!$rootScope.$$phase) {
+        $scope.$digest();
+      }
+    });
   })
   .run(function() {
 
