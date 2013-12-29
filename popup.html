@@ -8,30 +8,36 @@
   <script type="text/javascript" src="js/vendor/zepto.min.js"></script>
   <script type="text/javascript" src="js/hotkey_storage.js"></script>
   <script type="text/javascript" src="js/vendor/angular.min.js"></script>
-  <script src="js/controller/popup.js"></script>
+  <script type="text/javascript" src="js/angular-extend/angular.base-service.js"></script>
+  <script type="text/javascript" src="js/controller/popup.js"></script>
+  <script type="text/javascript" src="js/filter/filter.i18n.js"></script>
+  <script type="text/javascript" src="js/service/service.storage.js"></script>
+  <script type="text/javascript" src="js/service/service.settings.js"></script>
 </head>
-<body data-ng-controller="popupCtroller">
+<body data-ng-controller="popupController">
 <div id="tips" style="display: none;">
 
 </div>
 <ul>
-  <li id="colorpicker" class="enabled">
-    <span class="title">取色器</span>
+  <li id="colorpicker" class="enabled"
+    data-ng-click="toggle()">
+    <span class="title">{{'colorpicker' | i18nReplace}}</span>
     <span class="shortcut" id="colorpicker_sc"></span>
   </li>
   <li id="hRuler" class="disabled">
-    <span class="title">新建水平标尺</span>
+    <span class="title">{{'colorpicker' | i18nReplace}}</span>
     <span class="shortcut"></span>
   </li>
   <li id="vRuler">
-    <span class="title">新建垂直标尺</span>
+    <span class="title">{{'colorpicker' | i18nReplace}}</span>
     <span class="shortcut"></span>
   </li>
 </ul>
 <hr/>
 <ul>
-  <li id="config">
-    <span class="title">设置</span>
+  <li id="config"
+    data-ng-click="goSetting()">
+    <span class="title">{{'setting' | i18nReplace}}</span>
     <span class="shortcut"></span>
   </li>
 </ul>

@@ -1,5 +1,5 @@
 // Google Analytics
-var _gaq = _gaq || [];
+/*var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-45056740-1']);
 _gaq.push(['_trackPageview']);
 var bgPage = chrome.extension.getBackgroundPage();
@@ -38,18 +38,8 @@ function init() {
   if (HotKey.isEnabled() && HotKey.get('vRuler') != '@')
     $('#vRuler .shortcut').text('Ctrl+Alt+' + HotKey.get('rulerV'));
 
-  // localization
-  i18nReplace("colorpicker", "colorpicker");
-  i18nReplace("hRuler", "rulerH");
-  i18nReplace("vRuler", "rulerV");
-  i18nReplace("config", "setting");
-
   // event listener
-  $('#config').click(function() {
-    _gaq.push(['_trackEvent', 'config', 'clicked']);
-    chrome.tabs.create({ url:'options.html'});
-    window.close();
-  });
+
   $('#colorpicker').click(function() {
     _gaq.push(['_trackEvent', 'color picker', 'clicked']);
     bgPage.bg.pickupActivate();
@@ -109,14 +99,40 @@ function init() {
 
 $(document).ready(function() {
   init();
-});
+});*/
 
-angular.module('popup', [])
+angular.module('popup', [
+    'filter.i18n',
+    'service.storage',
+    'service.setting'
+  ])
   .config(function() {
 
   })
-  .controller('popupCtroller', function() {
+  .controller('popupController', function($scope, $chromeStorage, appSetting) {
+    var c = 1;
+    $scope.toggle = function() {
+      //chrome.storage.sync.set({disabled: !1});
+      $chromeStorage.set({disabled: c++})
+        .then(function() {
+          $chromeStorage.get('disabled')
+            .then(function(result) {
+              console.log(result);
+            });
+        });
 
+      window.close();
+    };
+
+    $scope.goSetting = function() {
+      _gaq.push(['_trackEvent', 'config', 'clicked']);
+      chrome.tabs.create({ url:'options.html'});
+      window.close();
+    };
+
+    /*chrome.storage.sync.get(["color", "background_color", "disabled"], function (r) {
+      console.log(r);
+    });*/
   })
   .run(function() {
 
