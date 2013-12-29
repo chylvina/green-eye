@@ -112,44 +112,48 @@ angular.module('popup', [
 
   })
   .controller('popupController', function($rootScope, $scope, appSetting) {
-    $scope.toggle = function(type) {
+    chrome.tabs.getSelected(null, function (tab) {
+      $scope.toggle = function(type) {
 
-      if(appSetting.get('type') == type) {
-        appSetting.set({
-          type: appSetting.TYPE_NONE
-        });
-      }
-      else {
-        appSetting.set({
-          type: type
-        });
-      }
+        if(appSetting.get('type') == type) {
+          appSetting.set({
+            type: appSetting.TYPE_NONE
+          })
+            .then(function() {
+              chrome.tabs.sendMessage(tab.id, {msg: 'app-setting-updated'});
+              //chrome.tabs.reload(tab.id);
+            });
+        }
+        else {
+          appSetting.set({
+            type: type
+          })
+            .then(function() {
+              chrome.tabs.sendMessage(tab.id, {msg: 'app-setting-updated'});
+              //chrome.tabs.reload(tab.id);
+            });
+        }
 
-      window.close();
-    };
+        window.close();
+      };
 
-    $scope.goSetting = function() {
-      _gaq.push(['_trackEvent', 'config', 'clicked']);
-      chrome.tabs.create({ url:'options.html'});
-      window.close();
-    };
+      $scope.goSetting = function() {
+        _gaq.push(['_trackEvent', 'config', 'clicked']);
+        chrome.tabs.create({ url:'options.html'});
+        window.close();
+      };
 
-    $scope.appSetting = appSetting;
+      $scope.appSetting = appSetting;
 
-    /*chrome.storage.sync.get(["color", "background_color", "disabled"], function (r) {
-      console.log(r);
-    });*/
+      /*chrome.storage.sync.get(["color", "background_color", "disabled"], function (r) {
+       console.log(r);
+       });*/
 
-    appSetting.bind('ready', function() {
-      if(!$rootScope.$$phase) {
-        $scope.$digest();
-      }
-    });
-
-    appSetting.bind('update', function() {
-      if(!$rootScope.$$phase) {
-        $scope.$digest();
-      }
+      appSetting.bind('ready', function() {
+        if(!$rootScope.$$phase) {
+          $scope.$digest();
+        }
+      });
     });
   })
   .run(function() {
