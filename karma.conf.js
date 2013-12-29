@@ -1,7 +1,7 @@
 // Karma configuration
 // http://karma-runner.github.io/0.10/config/configuration-file.html
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // base path, that will be used to resolve files and exclude
     basePath: '',
@@ -11,8 +11,11 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/*.js',
-      'test/**/*.js'
+      'app/bower_components/angular/angular.js',
+      'app/bower_components/angular-mocks/angular-mocks.js',
+      'app/js/*.js',
+      'app/js/**/*.js',
+      'test/spec/*.js'
     ],
 
     // list of files / patterns to exclude
@@ -38,11 +41,19 @@ module.exports = function(config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false
+    singleRun: false,
+    reporters: ['progress','coverage'],
+    preprocessors : {
+      'app/js/service/app.service.select.js': 'coverage'
+      ,'app/js/filter/*.js': 'coverage'},
+    coverageReporter: {
+      type : 'html',
+      dir : 'test/coverage/'
+    }
   });
 };
