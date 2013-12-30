@@ -1,6 +1,7 @@
 *.swp
 inc/jPicker/images/Thumbs.db
 .idea
+.tmp
 node_modules
 bower_components
 dist

@@ -3,10 +3,11 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
+  <!-- build:css({.tmp,app}) css/popup.css -->
   <link type="text/css" rel="stylesheet" href="css/popup.css">
+  <!-- endbuild -->
 
-  <script type="text/javascript" src="js/vendor/zepto.min.js"></script>
-  <script type="text/javascript" src="js/hotkey_storage.js"></script>
+  <!-- build:js({.tmp,app}) js/popup.js -->
   <script type="text/javascript" src="js/vendor/angular.min.js"></script>
   <script type="text/javascript" src="js/angular-extend/angular.base-service.js"></script>
   <script type="text/javascript" src="js/controller/popup.js"></script>
@@ -14,6 +15,7 @@
   <script type="text/javascript" src="js/service/service.storage.js"></script>
   <script type="text/javascript" src="js/service/service.setting.js"></script>
   <script type="text/javascript" src="js/directive/bindHtml.js"></script>
+  <!-- endbuild -->
 </head>
 <body data-ng-controller="popupController">
 <div id="tips"

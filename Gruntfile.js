@@ -284,31 +284,34 @@ module.exports = function (grunt) {
     // },
     uglify: {
       options: {
-        mangle: false
+        mangle: true
+      },
+      other: {
+        files : {
+          '<%= yeoman.dist %>/js/background.js' : '<%= yeoman.app %>/js/background.js',
+          '<%= yeoman.dist %>/js/inject.js' : '<%= yeoman.app %>/js/inject.js'
+        }
       }
     },
     // concat: {
     //   dist: {}
     // },
     useminPrepare: {
-      web: {
-        src: '<%= yeoman.app %>/index.html',
+      popup: {
+        src: [
+          '<%= yeoman.app %>/popup.html',
+          '<%= yeoman.app %>/options.html'
+        ],
         options: {
           dest: '<%= yeoman.dist %>'
-        }
-      },
-      mobile: {
-        src: '<%= yeoman.app %>/mobile.html',
-        options: {
-          dest: '<%= yeoman.mobile %>/www'
         }
       }
     },
     usemin: {
-      html: ['<%= yeoman.mobile %>/www/{,*/}*.html'],
-      css: ['<%= yeoman.mobile %>/www/css/{,*/}*.css'],
+      html: ['<%= yeoman.dist %>/{,*/}*.html'],
+      css: ['<%= yeoman.dist %>/css/{,*/}*.css'],
       options: {
-        assetsDirs: ['<%= yeoman.mobile %>/www']
+        assetsDirs: ['<%= yeoman.dist %>']
       }
     },
     svgmin: {
@@ -348,10 +351,16 @@ module.exports = function (grunt) {
             cwd: '<%= yeoman.app %>',
             dest: '<%= yeoman.dist %>',
             src: [
-              '*.{ico,png,txt}',
-              'images/**/*',
-              'index.html',
-              'bower_components/**/*'
+              'manifest.json',
+              'img/*',
+              'img/**/*',
+              'popup.html',
+              'options.html',
+              'background.html',
+              'js/vglink.js',
+              'css/inject.css',
+              '_locales/*',
+              '_locales/**/*'
             ]
           }
         ]
@@ -388,6 +397,12 @@ module.exports = function (grunt) {
       }
     },
     concurrent: {
+      popup: [
+        //'html2js',
+        //'coffee:dist',
+        //'less',
+        'copy:styles'
+      ],
       server: [
         'html2js',
         //'coffee:dist',
@@ -423,12 +438,14 @@ module.exports = function (grunt) {
     },
     ngmin: {
       dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.tmp %>/concat/js',
-          src: '*.js',
-          dest: '<%= yeoman.tmp %>/concat/js'
-        }]
+        files: [
+          {
+            expand: true,
+            cwd: '<%= yeoman.tmp %>/concat/js',
+            src: '*.js',
+            dest: '<%= yeoman.tmp %>/concat/js'
+          }
+        ]
       }
     }
   });
@@ -471,38 +488,22 @@ module.exports = function (grunt) {
     'clean:doc',
     'ngdocs',
     'connect:doc',
+
     'open:doc',
     'watch:doc'
   ]);
 
   grunt.registerTask('build', function (target) {
-    if (target === 'mobile') {
-      return grunt.task.run([
-        'clean:mobile',
-        'useminPrepare:mobile',
-        'concurrent:mobile',
-        //'autoprefixer',
-        'concat',
-        'ngmin',
-        'copy:mobile',
-        'cssmin',
-        'uglify',
-        'rev',
-        'usemin'
-      ]);
-    }
-
     grunt.task.run([
       'clean:dist',
-      'useminPrepare',
-      'concurrent:dist',
-      //'autoprefixer',
+      'useminPrepare:popup',
+      'concurrent:popup',
       'concat',
       'ngmin',
-      'copy:mobile',
+      'copy:dist',
       'cssmin',
       'uglify',
-      'rev',
+      //'rev',
       'usemin'
     ]);
   });
