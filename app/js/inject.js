@@ -13,8 +13,8 @@
       document.body.addEventListener('keydown', shortcutKey.handleShortcut, false);
 
       chrome.runtime.onMessage.addListener(function(request, sender, response) {
-        if (request.msg == 'is_helper_load') {
-          response({msg: 'helper_loaded'});
+        if (request.msg == 'is_green_eye_load') {
+          response({msg: 'green_eye_loaded'});
         }
       });
     },
@@ -31,7 +31,7 @@
         event.metaKey && event.altKey && isMac) &&
         keyCode > 64 && keyCode < 91) {
         chrome.runtime.sendMessage({
-          type: 'designertools_hot_key',
+          type: 'greeneye_hot_key',
           keyCode: keyCode
         });
       }

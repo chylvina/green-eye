@@ -13,10 +13,12 @@
   <script type="text/javascript" src="js/filter/filter.i18n.js"></script>
   <script type="text/javascript" src="js/service/service.storage.js"></script>
   <script type="text/javascript" src="js/service/service.setting.js"></script>
+  <script type="text/javascript" src="js/directive/bindHtml.js"></script>
 </head>
 <body data-ng-controller="popupController">
-<div id="tips" data-ng-if="tip != ''">
-  {{tip}}
+<div id="tips"
+     data-ng-if="tip != ''"
+     data-bind-html-Unsafe="tip">
 </div>
 <ul data-ng-if="tip == ''">
   <li id="colorpicker"

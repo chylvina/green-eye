@@ -40,17 +40,38 @@ var bg = {
     // simple messages
     chrome.runtime.onMessage.addListener(function (req, sender, sendResponse) {
       switch (req.type) {
-        case 'designertools_hot_key':
-          if (HotKey.isEnabled()) {
-            switch (req.keyCode) {
-              case HotKey.getCharCode('colorpicker'):
-                chrome.tabs.getSelected(null, function (tab) {
-                  bg.useTab(tab);
-                  bg.pickActivate();
-                });
-                break;
+        case 'greeneye_hot_key':
+          chrome.storage.sync.get(['hotKeyEnabled', 'hotKeySimple', 'hotKeyEntire', 'hotKeySmart', 'type'], function (r) {
+            if (r.hotKeyEnabled) {
+              var type;
+              switch (req.keyCode) {
+                case r.hotKeySimple.charCodeAt(0):
+                  type = 1;
+                  break;
+                case r.hotKeyEntire.charCodeAt(0):
+                  type = 2;
+                  break;
+                case r.hotKeySmart.charCodeAt(0):
+                  type = 3;
+                  break;
+                default:
+                  return;
+              }
             }
-          }
+
+            chrome.tabs.getSelected(null, function (tab) {
+              if (r.type == type) {
+                chrome.storage.sync.set({type: 0}, function () {
+                  chrome.tabs.sendMessage(tab.id, {msg: 'app-setting-updated'});
+                })
+              }
+              else {
+                chrome.storage.sync.set({type: type}, function () {
+                  chrome.tabs.sendMessage(tab.id, {msg: 'app-setting-updated'});
+                })
+              }
+            });
+          });
           break;
 
         // Reload background script
@@ -109,15 +130,15 @@ var bg = {
 
   //
   activate: function (callback) {
-    if(injectHash[bg.tab.id] == true) {
-      if(callback) {
+    if (injectHash[bg.tab.id] == true) {
+      if (callback) {
         callback();
       }
     }
     else {
       chrome.tabs.executeScript(bg.tab.id, {allFrames: false, file: "js/inject.js"}, function () {
         injectHash[bg.tab.id] = true;
-        if(callback) {
+        if (callback) {
           callback();
         }
       });
@@ -125,7 +146,7 @@ var bg = {
   },
 
   pickActivate: function () {
-    bg.activate(function() {
+    bg.activate(function () {
       // activate picker
       bg.sendMessage({type: 'pick-activate', options: { cursor: 'default', themeColor: localStorage['THEME_COLOR'] || "#f00" }}, function () {
       });
@@ -146,7 +167,7 @@ var bg = {
 
   },
 
-  tabOnUpdateListener: function() {
+  tabOnUpdateListener: function () {
     chrome.tabs.onUpdated.addListener(function (tabId) {
       console.log(tabId);
       delete injectHash[tabId];

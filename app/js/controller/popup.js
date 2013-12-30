@@ -1,7 +1,8 @@
 angular.module('popup', [
     'filter.i18n',
     'service.storage',
-    'service.setting'
+    'service.setting',
+    'ui.bootstrap.bindHtml'
   ])
   .config(function() {
 
@@ -70,6 +71,19 @@ angular.module('popup', [
             $scope.$digest();
           }
           return;
+        }
+        // local pages
+        if (tab.url.indexOf('file') == 0) {
+          $scope.tip = chrome.i18n.getMessage('tip3');
+          chrome.tabs.sendMessage(tab.id, {msg:'is_green_eye_load'},
+            function (response) {
+              if (response && response.msg == 'green_eye_loaded') {
+                $scope.tip = '';
+                if(!$rootScope.$$phase) {
+                  $scope.$digest();
+                }
+              }
+            });
         }
 
         if(!$rootScope.$$phase) {
