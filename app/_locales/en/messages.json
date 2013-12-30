@@ -1,12 +1,12 @@
 {
   "name":{
-    "message":"Designer Tools"
+    "message":"Green Eye"
   },
   "extDescription":{
-    "message":"A set of useful tools including eyedropper and ruler for web designers, frontend developers, etc. Will add more tools later."
+    "message":"Change background and foreground colors for eye health and normal vision, support simple change, entire change and smart change."
   },
   "optionPageTitle":{
-    "message":"Designer Tools option"
+    "message":"Green Eye option"
   },
   "shoppingAssistSetting":{
     "message":"We need your support"
@@ -39,7 +39,7 @@
     "message":"cancel"
   },
   "spectrumTip":{
-    "message":"Theme color for tools"
+    "message":"Choose Color"
   },
   "optionColorTitle":{
     "message":"Colors"
@@ -85,5 +85,20 @@
   },
   "TYPE_SMART": {
     "message": "Green smart"
+  },
+  "colorTitle": {
+    "message": "Text Color"
+  },
+  "borderColorTitle": {
+    "message": "Border Color"
+  },
+  "bgColorTitle": {
+    "message": "Background Color"
+  },
+  "setDefault": {
+    "message": "Restore Default"
+  },
+  "errorDuplicate": {
+    "message": "Duplicate Hot Key!"
   }
 }

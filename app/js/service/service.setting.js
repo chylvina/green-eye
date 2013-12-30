@@ -19,8 +19,12 @@ angular.module('service.setting', [
       hotKeyEnabled: true,
       hotKeySimple: 'S',
       hotKeyEntire: 'E',
-      hotKeySmart: 'M'
+      hotKeySmart: 'M',
+      useShoppingAssist: false
     };
+
+    // for test
+    //$chromeStorage.clear();
 
     s.data = {};
 
@@ -30,6 +34,10 @@ angular.module('service.setting', [
 
     s.set = function(items) {
       return $chromeStorage.set(items);
+    };
+
+    s.restoreDefault = function() {
+      return $chromeStorage.set(s.default);
     };
 
     // init
@@ -42,6 +50,7 @@ angular.module('service.setting', [
         }
       }
       if (arr.length == 0) {
+        s.emit('ready');  // ready 发且只发一次
         return;
       }
       $chromeStorage.get(arr)
@@ -58,7 +67,7 @@ angular.module('service.setting', [
           }
           $chromeStorage.set(obj);
 
-          s.emit('ready');
+          s.emit('ready');  // ready 发且只发一次
         });
     };
 
