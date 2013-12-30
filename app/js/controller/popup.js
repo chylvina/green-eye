@@ -8,6 +8,8 @@ angular.module('popup', [
   })
   .controller('popupController', function($rootScope, $scope, appSetting) {
     appSetting.bind('ready', function() {
+      var tab;
+
       var init = function() {
         $scope.toggle = function(type) {
           if(appSetting.get('type') == type) {
@@ -19,6 +21,7 @@ angular.module('popup', [
               .then(function() {
                 chrome.tabs.sendMessage(tab.id, {msg: 'app-setting-updated'});
                 //chrome.tabs.reload(tab.id);
+                window.close();
               });
           }
           else {
@@ -30,10 +33,9 @@ angular.module('popup', [
               .then(function() {
                 chrome.tabs.sendMessage(tab.id, {msg: 'app-setting-updated'});
                 //chrome.tabs.reload(tab.id);
+                window.close();
               });
           }
-
-          window.close();
         };
 
         $scope.goSetting = function() {
@@ -46,7 +48,9 @@ angular.module('popup', [
         $scope.appSetting = appSetting;
       };
 
-      chrome.tabs.getSelected(null, function (tab) {
+      chrome.tabs.getSelected(null, function (t) {
+        tab = t;
+
         $scope.tip = '';
 
         init();
