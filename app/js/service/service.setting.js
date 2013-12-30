@@ -15,7 +15,11 @@ angular.module('service.setting', [
       color: '#000',
       borderColor: '#ccc',
       bgColor: '#cce8cf',
-      type: s.TYPE_SMART
+      type: s.TYPE_SMART,
+      hotKeyEnabled: true,
+      hotKeySimple: 'S',
+      hotKeyEntire: 'E',
+      hotKeySmart: 'M'
     };
 
     s.data = {};

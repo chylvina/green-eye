@@ -11,19 +11,6 @@ $(document).ready(function () {
     }
 
     function init() {
-        i18nReplace('optionPageTitle');
-        i18nReplace('optionTitle', 'name');
-        i18nReplace('shoppingAssistSetting');
-        i18nReplace('shoppingAssistText', 'shoppingAssistTip');
-        i18nReplace('shorcutSetting', 'shortcut');
-        i18nReplace('settingShortcutText', 'enableShortcut');
-        i18nReplace('saveAndClose', 'saveAndClose');
-        i18nReplace('colorTitle', 'optionColorTitle');
-        i18nReplace('colorTip', 'spectrumTip');
-        $('#colorpicker label').text(chrome.i18n.getMessage('colorpicker'));
-        $('#rulerH label').text(chrome.i18n.getMessage('rulerH'));
-        $('#rulerV label').text(chrome.i18n.getMessage('rulerV'));
-
         initShoppingAssist();
         HotKey.setup();
         HotKeySetting.setup();

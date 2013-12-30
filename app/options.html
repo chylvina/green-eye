@@ -1,70 +1,84 @@
-<html ng-app="optionApp">
+<!DOCTYPE html>
+<html data-ng-csp data-ng-app="option">
 <head>
-    <title id="optionPageTitle"></title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="css/options.css"/>
-    <link rel="stylesheet" type="text/css" href="js/vendor/spectrum/spectrum.css">
-    <script src="js/vendor/jquery-1.7.1.min.js"></script>
-    <script src="js/vendor/spectrum/spectrum.js"></script>
-    <script src="js/hotkey_storage.js"></script>
-    <script src="js/options.js"></script>
+  <title>{{'optionPageTitle' | i18nReplace}}</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="css/options.css"/>
+  <link rel="stylesheet" type="text/css" href="js/vendor/spectrum/spectrum.css">
+  <script src="bower_components/jquery/jquery.min.js"></script>
+  <script src="js/vendor/spectrum/spectrum.js"></script>
+
+  <script type="text/javascript" src="js/vendor/angular.min.js"></script>
+  <script type="text/javascript" src="js/angular-extend/angular.base-service.js"></script>
+  <script type="text/javascript" src="js/controller/option.js"></script>
+  <script type="text/javascript" src="js/filter/filter.i18n.js"></script>
+  <script type="text/javascript" src="js/service/service.storage.js"></script>
+  <script type="text/javascript" src="js/service/service.setting.js"></script>
 </head>
 <body>
 <div class="contentBox">
-    <div id="header">
-        <h1 id="optionTitle"></h1>
+  <div id="header">
+    <h1>{{'name' | i18nReplace}}</h1>
+  </div>
+
+  <h4 id="shoppingAssistSetting">{{'shoppingAssistSetting' | i18nReplace}}</h4>
+
+  <div id="shoppingAssistContainer" style="margin: 2px 0 0 56px;">
+    <input type="checkbox" id="shoppingAssist">
+    <label for="shoppingAssist" id="shoppingAssistText" style="padding-left: 20px;">
+      {{'shoppingAssistText' | i18nReplace}}
+    </label>
+  </div>
+
+  <!-- Theme Color -->
+  <h4 id="colorTitle">
+    {{'colorTitle' | i18nReplace}}
+  </h4>
+
+  <div style="margin: 2px 0 0 56px;">
+    <label id="colorTip" style="padding-left: 20px;">
+      {{'colorTip' | i18nReplace}}
+    </label>
+    <input id='spectrum'/>
+  </div>
+
+  <!-- Screen Shot -->
+  <div id="shortcutSettingDiv" style="margin: 0 0 5px 0">
+    <h4 id="shorcutSetting">{{'shorcutSetting' | i18nReplace}}</h4>
+
+    <div style="margin: 2px 0 0 56px">
+      <input type="checkbox" id="settingShortcut">
+      <label for="settingShortcut" id="settingShortcutText">
+        {{'settingShortcutText' | i18nReplace}}
+      </label>
     </div>
-
-    <!-- Shortcut -->
-    <!--<h4 id="shoppingAssistSetting">Shopping Assist Setting</h4>
-
-    <div id="shoppingAssistContainer" style="margin: 2px 0 0 56px;">
-      <input type="checkbox" id="shoppingAssist">
-      <label for="shoppingAssist" id="shoppingAssistText" style="padding-left: 20px;"></label>
-    </div>-->
-
-    <h4 id="shoppingAssistSetting">Shopping Assist Setting</h4>
-
-    <div id="shoppingAssistContainer" style="margin: 2px 0 0 56px;">
-        <input type="checkbox" id="shoppingAssist">
-        <label for="shoppingAssist" id="shoppingAssistText" style="padding-left: 20px;"></label>
-    </div>
-
-    <!-- Theme Color -->
-    <h4 id="colorTitle"></h4>
-
-    <div style="margin: 2px 0 0 56px;">
-        <label id="colorTip" style="padding-left: 20px;"></label>
-        <input id='spectrum'/>
-    </div>
-
-    <!-- Screen Shot -->
-    <div id="shortcutSettingDiv" style="margin: 0 0 5px 0">
-        <h4 id="shorcutSetting"></h4>
-
-        <div style="margin: 2px 0 0 56px">
-            <input type="checkbox" id="settingShortcut">
-            <label for="settingShortcut" id="settingShortcutText"></label>
-        </div>
-        <div id="hot-key-setting">
+    <div id="hot-key-setting">
       <span id="colorpicker" class="hot-key">
-        <label for="colorpicker" class="capture-text">asdasd</label>
+        <label for="colorpicker" class="capture-text">
+          {{'TYPE_SIMPLE' | i18nReplace}}
+        </label>
         <span>Ctrl+Alt+<select></select></span>
       </span>
       <span id="rulerH" class="hot-key">
-        <label for="rulerH" class="capture-text"></label>
+        <label for="rulerH" class="capture-text">
+          {{'TYPE_ENTIRE' | i18nReplace}}
+        </label>
         <span>Ctrl+Alt+<select></select></span>
       </span>
       <span id="rulerV" class="hot-key">
-        <label class="capture-text"></label>
+        <label class="capture-text">
+          {{'TYPE_SMART' | i18nReplace}}
+        </label>
         <span>Ctrl+Alt+<select></select></span>
       </span>
-        </div>
-        <div id="error-info"></div>
     </div>
-    <div class="closeBtn">
-        <button id="saveAndClose"></button>
-    </div>
+    <div id="error-info"></div>
+  </div>
+  <div class="closeBtn">
+    <button id="saveAndClose">
+      {{'saveAndClose' | i18nReplace}}
+    </button>
+  </div>
 </div>
 </body>
 </html>

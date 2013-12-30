@@ -15,31 +15,34 @@
   <script type="text/javascript" src="js/service/service.setting.js"></script>
 </head>
 <body data-ng-controller="popupController">
-<div id="tips" style="display: none;">
-
+<div id="tips" data-ng-if="tip != ''">
+  {{tip}}
 </div>
-<ul>
+<ul data-ng-if="tip == ''">
   <li id="colorpicker"
       data-ng-class="{'enabled': appSetting.get('type') == appSetting.TYPE_SIMPLE}"
       data-ng-click="toggle(appSetting.TYPE_SIMPLE)">
     <span class="title">{{'TYPE_SIMPLE' | i18nReplace}}</span>
-    <span class="shortcut" id="colorpicker_sc"></span>
+    <span class="shortcut"
+      data-ng-show="appSetting.get('hotKeyEnabled') == true">Ctrl + Alt + {{appSetting.get('hotKeySimple')}}</span>
   </li>
   <li id="hRuler"
       data-ng-class="{'enabled': appSetting.get('type') == appSetting.TYPE_ENTIRE}"
       data-ng-click="toggle(appSetting.TYPE_ENTIRE)">
     <span class="title">{{'TYPE_ENTIRE' | i18nReplace}}</span>
-    <span class="shortcut"></span>
+    <span class="shortcut"
+          data-ng-show="appSetting.get('hotKeyEnabled') == true">Ctrl + Alt + {{appSetting.get('hotKeyEntire')}}</span>
   </li>
   <li id="vRuler"
       data-ng-class="{'enabled': appSetting.get('type') == appSetting.TYPE_SMART}"
       data-ng-click="toggle(appSetting.TYPE_SMART)">
     <span class="title">{{'TYPE_SMART' | i18nReplace}}</span>
-    <span class="shortcut"></span>
+    <span class="shortcut"
+          data-ng-show="appSetting.get('hotKeyEnabled') == true">Ctrl + Alt + {{appSetting.get('hotKeySmart')}}</span>
   </li>
 </ul>
-<hr/>
-<ul>
+<hr data-ng-if="tip == ''" />
+<ul data-ng-if="tip == ''">
   <li id="config"
       data-ng-click="goSetting()">
     <span class="title">{{'setting' | i18nReplace}}</span>

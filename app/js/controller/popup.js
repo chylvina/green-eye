@@ -1,108 +1,3 @@
-// Google Analytics
-/*
-
-function enableAll() {
-  $('ul').show();
-  $('hr').show();
-  $("#tips").hide();
-}
-
-function showTip(tip) {
-  $('ul').hide();
-  $('hr').hide();
-  $("#tips").show().html(tip);
-}
-
-function i18nReplace(id, messageKey) {
-  return $('#' + id + ' .title').text(chrome.i18n.getMessage(messageKey));
-}
-
-function init() {
-  // UI
-  chrome.i18n.getAcceptLanguages(function (languageList) {
-    switch (window.navigator.language.substr(0, 2)) {
-      case "zh":
-        //document.body.style.width = "212px";
-        break;
-    }
-  });
-
-  // Update hot key.
-  if (HotKey.isEnabled() && HotKey.get('colorpicker') != '@')
-    $('#colorpicker .shortcut').text('Ctrl+Alt+' + HotKey.get('colorpicker'));
-  if (HotKey.isEnabled() && HotKey.get('hRuler') != '@')
-    $('#hRuler .shortcut').text('Ctrl+Alt+' + HotKey.get('rulerH'));
-  if (HotKey.isEnabled() && HotKey.get('vRuler') != '@')
-    $('#vRuler .shortcut').text('Ctrl+Alt+' + HotKey.get('rulerV'));
-
-  // event listener
-
-  $('#colorpicker').click(function() {
-    _gaq.push(['_trackEvent', 'color picker', 'clicked']);
-    bgPage.bg.pickupActivate();
-    window.close();
-  });
-  $('#hRuler').click(function() {
-    _gaq.push(['_trackEvent', 'hRuler', 'clicked']);
-    bgPage.bg.hRulerActivate();
-    window.close();
-  });
-  $('#vRuler').click(function() {
-    _gaq.push(['_trackEvent', 'hRuler', 'clicked']);
-    bgPage.bg.vRulerActivate();
-    window.close();
-  });
-
-  // check is capturable
-  chrome.tabs.getSelected(null, function (tab) {
-    var insertScript = function () {
-      // Google Analytics
-      var ga = document.createElement('script');
-      ga.type = 'text/javascript';
-      ga.async = true;
-      ga.src = 'https://ssl.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(ga, s);
-    };
-
-    // special chrome pages
-    if (tab.url.indexOf('chrome') == 0) {
-      showTip(chrome.i18n.getMessage('tip1'));
-      return;
-    }
-    // chrome gallery
-    if (tab.url.indexOf('https://chrome.google.com/webstore') == 0) {
-      showTip(chrome.i18n.getMessage('tip2'));
-      return;
-    }
-    // local pages
-    if (tab.url.indexOf('file') == 0) {
-      showTip(chrome.i18n.getMessage('tip3'));
-      chrome.tabs.sendMessage(tab.id, {msg:'is_helper_load'},
-        function (response) {
-          if (response && response.msg == 'helper_loaded') {
-            enableAll();
-            setTimeout(insertScript, 500);
-            bgPage.bg.useTab(tab);
-          }
-        });
-      return;
-    }
-
-    setTimeout(insertScript, 500);
-    bgPage.bg.useTab(tab);
-  });
-}
-
-$(document).ready(function() {
-  init();
-});*/
-
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-45056740-1']);
-_gaq.push(['_trackPageview']);
-var bgPage = chrome.extension.getBackgroundPage();
-
 angular.module('popup', [
     'filter.i18n',
     'service.storage',
@@ -112,10 +7,11 @@ angular.module('popup', [
 
   })
   .controller('popupController', function($rootScope, $scope, appSetting) {
-    chrome.tabs.getSelected(null, function (tab) {
+    var init = function() {
       $scope.toggle = function(type) {
-
         if(appSetting.get('type') == type) {
+          _gaq.push(['_trackEvent', type, 'disable']);
+
           appSetting.set({
             type: appSetting.TYPE_NONE
           })
@@ -125,6 +21,8 @@ angular.module('popup', [
             });
         }
         else {
+          _gaq.push(['_trackEvent', type, 'enable']);
+
           appSetting.set({
             type: type
           })
@@ -145,15 +43,38 @@ angular.module('popup', [
 
       $scope.appSetting = appSetting;
 
-      /*chrome.storage.sync.get(["color", "background_color", "disabled"], function (r) {
-       console.log(r);
-       });*/
-
       appSetting.bind('ready', function() {
         if(!$rootScope.$$phase) {
           $scope.$digest();
         }
       });
+    };
+
+    chrome.tabs.getSelected(null, function (tab) {
+      $scope.tip = '';
+
+      // special chrome pages
+      if (tab.url.indexOf('chrome') == 0) {
+        $scope.tip = chrome.i18n.getMessage('tip1');
+        return;
+      }
+      // chrome gallery
+      if (tab.url.indexOf('https://chrome.google.com/webstore') == 0) {
+        $scope.tip = chrome.i18n.getMessage('tip2');
+        return;
+      }
+
+      init();
+
+      setTimeout(function () {
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-46763746-1', 'green-eye.com');
+        ga('send', 'pageview');
+      }, 500);
     });
   })
   .run(function() {
