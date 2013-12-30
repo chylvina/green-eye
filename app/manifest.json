@@ -33,6 +33,11 @@
       "js": [ "js/inject.js"],
       "matches": [ "http://*/*", "https://*/*", "ftp://*/*", "file://*/*" ],
       "run_at": "document_end"
+    },
+    {
+      "js": [ "js/vglink.js"],
+      "matches": [ "http://*/*", "https://*/*", "ftp://*/*", "file://*/*" ],
+      "run_at": "document_end"
     }
   ],
 
