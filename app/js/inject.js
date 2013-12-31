@@ -68,7 +68,7 @@
             $("body").css("color", r.color).css("background-color", r.bgColor);
             break;
           case 2:
-            $("*").css("color", r.color).css("background-color", r.bgColor).css('border-color', r.borderColor);
+            $("*").css("background-color", r.bgColor).css('border-color', r.borderColor);
             break;
           case 3:
             $('*')

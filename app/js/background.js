@@ -196,9 +196,9 @@ var bg = {
 
     // act when tab is changed
     // TODO: call only when needed? this is now used also if picker isn't active
-    //bg.tabOnChangeListener();
+    bg.tabOnChangeListener();
 
-    //bg.tabOnUpdateListener();
+    bg.tabOnUpdateListener();
   }
 };
 
