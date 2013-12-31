@@ -16,7 +16,7 @@ angular.module('service.setting', [
       borderColor: '#ccc',
       bgColor: '#cce8cf',
       type: s.TYPE_SMART,
-      hotKeyEnabled: true,
+      hotKeyEnabled: false,
       hotKeySimple: 'S',
       hotKeyEntire: 'E',
       hotKeySmart: 'M',

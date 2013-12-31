@@ -42,21 +42,23 @@ var bg = {
       switch (req.type) {
         case 'greeneye_hot_key':
           chrome.storage.sync.get(['hotKeyEnabled', 'hotKeySimple', 'hotKeyEntire', 'hotKeySmart', 'type'], function (r) {
-            if (r.hotKeyEnabled) {
-              var type;
-              switch (req.keyCode) {
-                case r.hotKeySimple.charCodeAt(0):
-                  type = 1;
-                  break;
-                case r.hotKeyEntire.charCodeAt(0):
-                  type = 2;
-                  break;
-                case r.hotKeySmart.charCodeAt(0):
-                  type = 3;
-                  break;
-                default:
-                  return;
-              }
+            if (!r.hotKeyEnabled) {
+              return;
+            }
+
+            var type;
+            switch (req.keyCode) {
+              case r.hotKeySimple.charCodeAt(0):
+                type = 1;
+                break;
+              case r.hotKeyEntire.charCodeAt(0):
+                type = 2;
+                break;
+              case r.hotKeySmart.charCodeAt(0):
+                type = 3;
+                break;
+              default:
+                return;
             }
 
             chrome.tabs.getSelected(null, function (tab) {
@@ -194,9 +196,9 @@ var bg = {
 
     // act when tab is changed
     // TODO: call only when needed? this is now used also if picker isn't active
-    bg.tabOnChangeListener();
+    //bg.tabOnChangeListener();
 
-    bg.tabOnUpdateListener();
+    //bg.tabOnUpdateListener();
   }
 };
 

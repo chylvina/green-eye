@@ -26,9 +26,9 @@
     <h1>{{'name' | i18nReplace}}</h1>
   </div>
 
-  <h4 id="shoppingAssistSetting">{{'shoppingAssistSetting' | i18nReplace}}</h4>
+  <h4 id="shoppingAssistSetting" style="display: none;">{{'shoppingAssistSetting' | i18nReplace}}</h4>
 
-  <div id="shoppingAssistContainer" style="margin: 2px 0 0 56px;"
+  <div id="shoppingAssistContainer" style="margin: 2px 0 0 56px; display: none;"
        data-ng-class="{'love': setting.useShoppingAssist, 'love-gray': !setting.useShoppingAssist}">
     <input type="checkbox" id="shoppingAssist" data-ng-model="setting.useShoppingAssist">
     <label for="shoppingAssist" id="shoppingAssistText" style="padding-left: 20px;">
