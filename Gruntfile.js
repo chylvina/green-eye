@@ -357,7 +357,6 @@ module.exports = function (grunt) {
               'popup.html',
               'options.html',
               'background.html',
-              'js/vglink.js',
               'css/inject.css',
               '_locales/*',
               '_locales/**/*'
