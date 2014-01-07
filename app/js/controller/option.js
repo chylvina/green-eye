@@ -1,7 +1,8 @@
 angular.module('option', [
     'filter.i18n',
     'service.storage',
-    'service.setting'
+    'service.setting',
+    'ui.bootstrap.bindHtml'
   ])
   .config(function() {
 

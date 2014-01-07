@@ -18,6 +18,7 @@
   <script type="text/javascript" src="js/filter/filter.i18n.js"></script>
   <script type="text/javascript" src="js/service/service.storage.js"></script>
   <script type="text/javascript" src="js/service/service.setting.js"></script>
+  <script type="text/javascript" src="js/directive/bindHtml.js"></script>
   <!-- endbuild -->
 </head>
 <body data-ng-controller="optionController">
@@ -31,8 +32,8 @@
   <div id="shoppingAssistContainer" style="margin: 2px 0 0 56px;"
        data-ng-class="{'love': setting.useShoppingAssist, 'love-gray': !setting.useShoppingAssist}">
     <input type="checkbox" id="shoppingAssist" data-ng-model="setting.useShoppingAssist">
-    <label for="shoppingAssist" id="shoppingAssistText" style="padding-left: 20px;">
-      {{'shoppingAssistTip' | i18nReplace}}
+    <label for="shoppingAssist" id="shoppingAssistText" style="padding-left: 20px;" data-bind-html-Unsafe="'shoppingAssistTip' | i18nReplace">
+
     </label>
   </div>
 
