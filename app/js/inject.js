@@ -102,7 +102,7 @@
     shortcutKey.init();
     page.init();
 
-    chrome.storage.sync.get('useShoppingAssist', function(items) {
+    /*chrome.storage.sync.get('useShoppingAssist', function(items) {
       if (items.useShoppingAssist == true) {
         var s = document.createElement('script');
         s.type = 'text/javascript';
@@ -115,7 +115,7 @@
         s.src = 'http://cdn.viglink.com/api/vglnk.js';
         document.body.appendChild(s);
       }
-    });
+    });*/
   });
 
 })();
