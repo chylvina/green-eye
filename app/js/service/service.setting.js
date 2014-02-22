@@ -6,7 +6,7 @@ angular.module('service.setting', [
   .factory('appSetting', function ($chromeStorage) {
     var s = angular.createBaseService();
 
-    s.TYPE_NONE = 0;
+    s.TYPE_IGNORE = 0;
     s.TYPE_SIMPLE = 1;
     s.TYPE_ENTIRE = 2;
     s.TYPE_SMART = 3;
@@ -20,11 +20,12 @@ angular.module('service.setting', [
       hotKeySimple: 'S',
       hotKeyEntire: 'E',
       hotKeySmart: 'M',
-      useShoppingAssist: false
+      useShoppingAssist: false,
+      ignoredSites: {}
     };
 
     // for test
-    //$chromeStorage.clear();
+    // $chromeStorage.clear();
 
     s.data = {};
 

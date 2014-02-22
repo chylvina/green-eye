@@ -1,5 +1,6 @@
 angular.module('popup', [
     'filter.i18n',
+    'filter.util',
     'service.storage',
     'service.setting',
     'ui.bootstrap.bindHtml'
@@ -7,54 +8,12 @@ angular.module('popup', [
   .config(function() {
 
   })
-  .controller('popupController', function($rootScope, $scope, appSetting) {
+  .controller('popupController', function($rootScope, $scope, appSetting, $filter) {
     appSetting.bind('ready', function() {
-      var tab;
-
-      var init = function() {
-        $scope.toggle = function(type) {
-          if(appSetting.get('type') == type) {
-            ga('send', 'event', 'popup', 'analysis', 'disable', type);
-
-            appSetting.set({
-              type: appSetting.TYPE_NONE
-            })
-              .then(function() {
-                chrome.tabs.sendMessage(tab.id, {msg: 'app-setting-updated'});
-                //chrome.tabs.reload(tab.id);
-                window.close();
-              });
-          }
-          else {
-            ga('send', 'event', 'popup', 'analysis', 'enable', type);
-
-            appSetting.set({
-              type: type
-            })
-              .then(function() {
-                chrome.tabs.sendMessage(tab.id, {msg: 'app-setting-updated'});
-                //chrome.tabs.reload(tab.id);
-                window.close();
-              });
-          }
-        };
-
-        $scope.goSetting = function() {
-          ga('send', 'event', 'popup', 'click', 'option');
-
-          chrome.tabs.create({ url:'options.html'});
-          window.close();
-        };
-
-        $scope.appSetting = appSetting;
-      };
-
-      chrome.tabs.getSelected(null, function (t) {
-        tab = t;
+      chrome.tabs.getSelected(null, function (tab) {
 
         $scope.tip = '';
-
-        init();
+        var tabDomain = $filter('getDomain')(tab.url);
 
         // special chrome pages
         if (tab.url.indexOf('chrome') == 0) {
@@ -72,6 +31,7 @@ angular.module('popup', [
           }
           return;
         }
+
         // local pages
         if (tab.url.indexOf('file') == 0) {
           $scope.tip = chrome.i18n.getMessage('tip3');
@@ -86,19 +46,75 @@ angular.module('popup', [
             });
         }
 
-        if(!$rootScope.$$phase) {
-          $scope.$digest();
-        }
 
         setTimeout(function () {
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+          // init
+          $scope.toggle = function(type) {
+            if(!tabDomain)
+              return;
 
-          ga('create', 'UA-46763746-1', 'green-eye.com');
-          ga('send', 'event', 'popup', 'analysis', 'type', appSetting.type);
-        }, 500);
+            var sites = appSetting.get('ignoredSites');
+
+            if(type == appSetting.TYPE_IGNORE) {
+              ga('send', 'event', 'popup', 'analysis', 'disable', tabDomain);
+
+              sites[tabDomain] = true;
+
+              appSetting.set({
+                ignoredSites: sites
+              })
+                .then(function() {
+                  chrome.tabs.sendMessage(tab.id, {msg: 'app-setting-updated'});
+                  //chrome.tabs.reload(tab.id);
+                  window.close();
+                });
+            }
+            else if(appSetting.get('type') == type) {
+              // do nothing
+              window.close();
+            }
+            else {
+              ga('send', 'event', 'popup', 'analysis', 'enable', type);
+
+              delete sites[tabDomain];
+
+              appSetting.set({
+                type: type,
+                ignoredSites: sites
+              })
+                .then(function() {
+                  chrome.tabs.sendMessage(tab.id, {msg: 'app-setting-updated'});
+                  //chrome.tabs.reload(tab.id);
+                  window.close();
+                });
+            }
+          };
+
+          $scope.goSetting = function() {
+            ga('send', 'event', 'popup', 'click', 'option');
+
+            chrome.tabs.create({ url:'options.html'});
+            window.close();
+          };
+
+          $scope.appSetting = appSetting;
+
+          $scope.isDomainIgnored = appSetting.get('ignoredSites')[tabDomain];
+
+          if(!$rootScope.$$phase) {
+            $scope.$digest();
+          }
+
+          setTimeout(function() {
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-46763746-1', 'green-eye.com');
+            ga('send', 'event', 'popup', 'analysis', 'type', appSetting.type);
+          }, 500);
+        }, 0);
       });
     });
   })

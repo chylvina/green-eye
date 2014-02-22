@@ -59,7 +59,13 @@
     },
 
     render: function() {
-      chrome.storage.sync.get(["color", "borderColor", "bgColor", "type"], function (r) {
+      chrome.storage.sync.get(["color", "borderColor", "bgColor", "type", "ignoredSites"], function (r) {
+        var url = window.location.href;
+        var matches = url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+        var domain = matches && matches[1];
+        if(r.ignoredSites[domain] == true)
+          return;
+
         switch(parseInt(r.type, 10)) {
           case 0:
             break;
@@ -101,21 +107,6 @@
   $(document).ready(function() {
     shortcutKey.init();
     page.init();
-
-    /*chrome.storage.sync.get('useShoppingAssist', function(items) {
-      if (items.useShoppingAssist == true) {
-        var s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.innerText = "var vglnk = {api_url: '//api.viglink.com/api', key: '6bd5c05cd90e1902e22081bcaa452f9c'};";
-        document.body.appendChild(s);
-
-        s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.async = true;
-        s.src = 'http://cdn.viglink.com/api/vglnk.js';
-        document.body.appendChild(s);
-      }
-    });*/
   });
 
 })();
