@@ -70,6 +70,20 @@ angular.module('popup', [
                 });
             }
             else if(appSetting.get('type') == type) {
+              if(sites[tabDomain] == true) {
+                delete sites[tabDomain];
+                
+                appSetting.set({
+                  ignoredSites: sites
+                })
+                .then(function() {
+                  chrome.tabs.sendMessage(tab.id, {msg: 'app-setting-updated'});
+                  //chrome.tabs.reload(tab.id);
+                  window.close();
+                });
+                return;
+              }
+              
               // do nothing
               window.close();
             }
